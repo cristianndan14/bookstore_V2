@@ -13,7 +13,8 @@ class ModeloUsuario():
             cursor.execute(sql)
             data = cursor.fetchone()
             if data != None:
-                coincide = Usuario.verificar_password(data[2], usuario.password)
+                coincide = Usuario.verificar_password(
+                    data[2], usuario.password)
                 if coincide:
                     usuario_logueado = Usuario(data[0], data[1], None, None)
                     return usuario_logueado
