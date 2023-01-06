@@ -8,7 +8,7 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('index') }}">Index</a>
         </li>
-        {% if current_user.tipousuario.id == 2 %}
+        {% if current_user.tipousuario_id.id == 2 %}
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('listar_libros') }}">Libros</a>
         </li>
@@ -18,7 +18,7 @@
         </li>
       </ul>
       <span class="navbar-text">
-          <strong>{{ current_user.usuario }}</strong>  ({{ current_user.tipousuario.nombre }})
+          <strong>{{ current_user.usuario }}</strong>  ({{ current_user.tipousuario_id.nombre }})
       </span>
     </div>
   </nav>

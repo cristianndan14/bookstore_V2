@@ -35,7 +35,7 @@
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <h2>{{ data.titulo }}</h2>
     </div>
-    {% if current_user.tipousuario.id == 1%}
+    {% if current_user.tipousuario_id.id == 1%}
 
         {% if data.libros_vendidos|length > 0 %}
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">

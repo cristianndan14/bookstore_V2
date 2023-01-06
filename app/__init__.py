@@ -15,6 +15,8 @@ from .models.entities.Usuario import Usuario
 from .consts import *
 from .emails import confirmacion_compra
 
+from werkzeug.security import generate_password_hash
+
 app = Flask(__name__)
 
 csrf = CSRFProtect()
@@ -47,6 +49,33 @@ def login():
         return render_template('auth/login.html')
 
 
+"""CONTINUE BUILDING REGISTER FEATURE"""
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == "POST":
+        password = generate_password_hash(request.form['password'])
+        usuario = Usuario(None, request.form['usuario'], password, 2)
+        usuario_creado = ModeloUsuario.crear_nuevo_usuario(db, usuario)
+        if usuario_creado != None:
+            return redirect(url_for('login'))
+    else:
+        return render_template('auth/register.html')
+
+
+"""------------------------"""
+
+
+""" 
+GENERADOR DE CONTRASEÑAS
+
+@app.route('/password/<password>')
+def new_password(password):
+    hash_password = generate_password_hash(password)
+    return "Tu contraseña es: {0} | Tu hash es: {1}".format(password, hash_password) """
+
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -58,7 +87,7 @@ def logout():
 @login_required
 def index():
     if current_user.is_authenticated:
-        if current_user.tipousuario.id == 1:
+        if current_user.tipousuario_id.id == 1:
             try:
                 libros_vendidos = ModeloLibro.listar_libros_vendidos(db)
                 data = {
