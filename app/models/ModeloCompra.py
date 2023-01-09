@@ -5,7 +5,7 @@ from .entities.Libro import Libro
 class ModeloCompra():
 
     @classmethod
-    def registrar_compra(self, db, compra):
+    def registrar_compra(cls, db, compra):
         try:
             cursor = db.connection.cursor()
             sql = """INSERT INTO compra (uuid, libro_isbn, usuario_id)
@@ -17,7 +17,7 @@ class ModeloCompra():
             raise Exception(ex)
 
     @classmethod
-    def listar_compras_usuario(self, db, usuario):
+    def listar_compras_usuario(cls, db, usuario):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT COM.fecha, LIB.isbn, LIB.titulo, LIB.precio 

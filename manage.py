@@ -1,5 +1,5 @@
 from flask_script import Manager, Server
-from app import inicializar_app
+from app.app import inicializar_app
 from config import config
 
 configuracion = config['development']

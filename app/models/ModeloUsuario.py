@@ -5,7 +5,7 @@ from .entities.TipoUsuario import TipoUsuario
 class ModeloUsuario():
 
     @classmethod
-    def login(self, db, usuario):
+    def login(cls, db, usuario):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT id, usuario, password 
@@ -26,7 +26,7 @@ class ModeloUsuario():
             raise Exception(ex)
 
     @classmethod
-    def obtener_por_id(self, db, id):
+    def obtener_por_id(cls, db, id):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT USU.id, USU.usuario, USU.password, TIP.id, TIP.nombre 
@@ -41,7 +41,7 @@ class ModeloUsuario():
             raise Exception(ex)
 
     @classmethod
-    def crear_nuevo_usuario(self, db, usuario):
+    def crear_nuevo_usuario(cls, db, usuario):
         try:
             cursor = db.connection.cursor()
             sql = """INSERT INTO usuario (id, usuario, password, tipousuario_id)
@@ -49,5 +49,17 @@ class ModeloUsuario():
             cursor.execute(sql)
             db.connection.commit()
             return True
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def verificar_usuario_existente(cls, db, usuario):
+        cursor = db.connection.cursor()
+        sql = """SELECT 1
+            FROM usuario
+            WHERE usuario = %s"""
+        try:
+            cursor.execute(sql, (usuario,))
+            return cursor.fetchone() is not None
         except Exception as ex:
             raise Exception(ex)

@@ -5,7 +5,7 @@ from .entities.Libro import Libro
 class ModeloLibro():
 
     @classmethod
-    def listar_libro(self, db):
+    def listar_libro(cls, db):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT LIB.isbn, LIB.titulo, LIB.anoedicion, LIB.precio, 
@@ -24,7 +24,7 @@ class ModeloLibro():
             raise Exception(ex)
 
     @classmethod
-    def leer_libro(self, db, isbn):
+    def leer_libro(cls, db, isbn):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT isbn, titulo, anoedicion, precio
@@ -37,7 +37,7 @@ class ModeloLibro():
             raise Exception(ex)
 
     @classmethod
-    def listar_libros_vendidos(self, db):
+    def listar_libros_vendidos(cls, db):
         try:
             cursor = db.connection.cursor()
             sql = """SELECT COM.libro_isbn, LIB.titulo, LIB.precio,

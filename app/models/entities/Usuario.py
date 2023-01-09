@@ -11,5 +11,5 @@ class Usuario(UserMixin):
         self.tipousuario_id = tipousuario_id
 
     @classmethod
-    def verificar_password(self, encriptado, password):
+    def verificar_password(cls, encriptado, password):
         return check_password_hash(encriptado, password)

@@ -1,4 +1,5 @@
 LOGIN_CREDENCIALESINVALIDAS = '¡Usuario o password incorrectos!'
 LOGOUT = 'Cerraste sesión exitosamente.'
-
+REGISTER_USUARIOEXISTENTE = '¡Nombre de usuario existente! Intente otro nombre.'
+REGISTER_SUCCESS = 'Usuario registrado exitosamente.'
 MENSAJE_BIENVENIDA = '¡Bienvenido(a) a la tienda "Ateneo"!'
