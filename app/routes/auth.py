@@ -6,7 +6,10 @@ from ..models.ModeloUsuario import ModeloUsuario
 
 from ..models.entities.Usuario import Usuario
 
+from ..validations.password_validation import PasswordValidator
+
 from ..consts import *
+
 
 
 def init_auth(app, db):
@@ -31,26 +34,30 @@ def init_auth(app, db):
 
     """CONTINUE BUILDING REGISTER FEATURE"""
 
-
     @app.route('/register', methods=['GET', 'POST'])
     def register():
         if request.method == "POST":
-            password = generate_password_hash(request.form['password'])
+            password = request.form['password']
             usuario = request.form['usuario']
 
-            # Verificar si ya existe un usuario con ese nombre.
             existe = ModeloUsuario.verificar_usuario_existente(db, usuario)
 
-            # Si es True, devuelve un mensaje de advertencia
-            # y renderiza nuevamente el formulario de creación de cuenta.
+            validator = PasswordValidator()
+            validation = validator.validate(password, usuario)
+         
             if existe:
                 flash(REGISTER_USUARIOEXISTENTE, 'warning')
                 return render_template('auth/register.html')
-            # Si existe es False, genera un usuario nuevo y se guarda en la DB.
+            
+            if validation[0] == False:
+                for e in validation[1]:
+                    flash(e, 'warning')
+                return render_template('auth/register.html')
+                
             else:
-                usuario_nuevo = Usuario(None, usuario, password, 2)
-                usuario_creado = ModeloUsuario.crear_nuevo_usuario(
-                    db, usuario_nuevo)
+                password_hash = generate_password_hash(password)
+                usuario_nuevo = Usuario(None, usuario, password_hash, 2)
+                usuario_creado = ModeloUsuario.crear_nuevo_usuario(db, usuario_nuevo)
                 if usuario_creado != None:
                     flash(REGISTER_SUCCESS, 'success')
                     return redirect(url_for('login'))
@@ -59,9 +66,7 @@ def init_auth(app, db):
         else:
             return render_template('auth/register.html')
 
-
     """------------------------"""
-
 
     """ 
     GENERADOR DE CONTRASEÑAS
@@ -70,7 +75,6 @@ def init_auth(app, db):
     def new_password(password):
         hash_password = generate_password_hash(password)
         return "Tu contraseña es: {0} | Tu hash es: {1}".format(password, hash_password) """
-
 
     @app.route('/logout')
     def logout():

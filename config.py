@@ -8,7 +8,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     MYSQL_HOST = 'localhost'
-    MYSQL_PORT = 3307
+    MYSQL_PORT = 3308
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = config('MYSQL_PASSWORD')
     MYSQL_DB = 'tienda'
