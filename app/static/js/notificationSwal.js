@@ -1,4 +1,4 @@
-const notificacionSwal = (titleText, text, icon, confirmButtonText) => {
+const notificationSwal = (titleText, text, icon, confirmButtonText) => {
   Swal.fire({
     titleText: titleText,
     text: text,

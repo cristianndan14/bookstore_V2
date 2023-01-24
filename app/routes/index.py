@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
 
-from ..models.ModeloCompra import ModeloCompra
-from ..models.ModeloLibro import ModeloLibro
+from ..models.SellsModel import SellsModel
+from ..models.BookModel import BookModel
 
 
 def init_index(app, db):
@@ -11,25 +11,25 @@ def init_index(app, db):
     @login_required
     def index():
         if current_user.is_authenticated:
-            if current_user.tipousuario_id.id == 1:
+            if current_user.user_type_id.id == 1:
                 try:
-                    libros_vendidos = ModeloLibro.listar_libros_vendidos(db)
+                    books_sold = BookModel.book_lists_sold(db)
                     data = {
-                        'titulo': 'Libros vendidos',
-                        'libros_vendidos': libros_vendidos
+                        'title': 'Books sold',
+                        'books_sold': books_sold
                     }
                     return render_template('index.html', data=data)
                 except Exception as ex:
-                    return render_template('errores/error.html', mensaje=format(ex))
+                    return render_template('errors/error.html', message=format(ex))
             else:
                 try:
-                    compras = ModeloCompra.listar_compras_usuario(db, current_user)
+                    orders = SellsModel.list_user_purchases(db, current_user)
                     data = {
-                        'titulo': 'Mis compras',
-                        'compras': compras
+                        'title': 'My purchases',
+                        'orders': orders
                     }
                     return render_template('index.html', data=data)
                 except Exception as ex:
-                    return render_template('errores/error.html', mensaje=format(ex))
+                    return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('login'))

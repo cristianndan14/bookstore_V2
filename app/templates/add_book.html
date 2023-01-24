@@ -1,0 +1,53 @@
+{% extends './body.html' %}
+
+{% block title %}Add Book{% endblock title %}
+
+
+{% block container %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h1>Add new book</h1>
+    </div>
+</div>
+
+<hr>
+
+<form>
+    <div class="form-group">
+      <label for="Title">Title</label>
+      <input type="text" class="form-control" id="Title" placeholder="Title">
+    </div>
+    <div class="form-group">
+      <label for="Author">Select author</label>
+      <select class="form-control" id="Author">
+        {% for aut in data.authors %}
+          <option>...</option>
+          <option>{{ aut.full_name() }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+        <h5>If author don't exists</h5>
+        <a href="#" class="btn btn-secondary btn-sm">Create author</a>
+    </div>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFile">
+        <label class="custom-file-label" for="customFile">Choose cover book</label>
+    </div>
+    <div class="form-group">
+        <label for="publication_date">Publication date</label>
+        <input type="date" class="form-control" id="publication_date">
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" class="form-control" step="0.01" max="9999.99" id="Price" placeholder="Price in USD">
+    </div>
+
+  </form>
+
+{% endblock container %}
+
+
+{% block customJS %}
+{% endblock customJS %}

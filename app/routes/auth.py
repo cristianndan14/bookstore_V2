@@ -2,9 +2,9 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash
 
-from ..models.ModeloUsuario import ModeloUsuario
+from ..models.UserModel import UserModel
 
-from ..models.entities.Usuario import Usuario
+from ..models.entities.users import User
 
 from ..validations.password_validation import PasswordValidator
 
@@ -17,16 +17,18 @@ def init_auth(app, db):
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         if request.method == 'POST':
-            usuario = Usuario(
-                None, request.form['usuario'], request.form['password'], None
+            username = request.form['username']
+            password = request.form['password']
+            user = User(
+                None, username, password, None, None, None, None
             )
-            usuario_logueado = ModeloUsuario.login(db, usuario)
-            if usuario_logueado != None:
-                login_user(usuario_logueado)
-                flash(MENSAJE_BIENVENIDA, 'success')
+            logged_user = UserModel.login(db, user)
+            if logged_user != None:
+                login_user(logged_user)
+                flash(WELCOME_MESSAGE, 'success')
                 return redirect(url_for('index'))
             else:
-                flash(LOGIN_CREDENCIALESINVALIDAS, 'warning')
+                flash(LOGIN_INVALIDCREDENTIALS, 'warning')
                 return render_template('auth/login.html')
         else:
             return render_template('auth/login.html')
@@ -38,27 +40,31 @@ def init_auth(app, db):
     def register():
         if request.method == "POST":
             password = request.form['password']
-            usuario = request.form['usuario']
+            username = request.form['username']
+            email = request.form['email']
+            name = request.form['name']
+            last_name = request.form['last_name']
 
-            existe = ModeloUsuario.verificar_usuario_existente(db, usuario)
+            existing_user = UserModel.verify_user(db, username)
 
             validator = PasswordValidator()
-            validation = validator.validate(password, usuario)
+            validation = validator.validate(password, username)
          
-            if existe:
-                flash(REGISTER_USUARIOEXISTENTE, 'warning')
+            if existing_user:
+                flash(REGISTER_USERINVALID, 'warning')
                 return render_template('auth/register.html')
             
             if validation[0] == False:
                 for e in validation[1]:
+                    print(e)
                     flash(e, 'warning')
                 return render_template('auth/register.html')
                 
             else:
                 password_hash = generate_password_hash(password)
-                usuario_nuevo = Usuario(None, usuario, password_hash, 2)
-                usuario_creado = ModeloUsuario.crear_nuevo_usuario(db, usuario_nuevo)
-                if usuario_creado != None:
+                new_user = User(None, username, password_hash, 2, email, name, last_name)
+                push_user = UserModel.create_user(db, new_user)
+                if push_user != None:
                     flash(REGISTER_SUCCESS, 'success')
                     return redirect(url_for('login'))
                 else:
@@ -68,10 +74,10 @@ def init_auth(app, db):
 
     """------------------------"""
 
-    """ 
-    GENERADOR DE CONTRASEÑAS
+    
+    # GENERADOR DE CONTRASEÑAS
 
-    @app.route('/password/<password>')
+    """ @app.route('/password/<password>')
     def new_password(password):
         hash_password = generate_password_hash(password)
         return "Tu contraseña es: {0} | Tu hash es: {1}".format(password, hash_password) """

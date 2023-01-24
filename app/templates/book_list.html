@@ -1,0 +1,64 @@
+{% extends './body.html' %}
+
+{% block title %}Book list{% endblock title %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h1>{{ data.title }}</h1>
+    </div>
+</div>
+
+<hr>
+
+{% if current_user.user_type_id.id == 1 %}
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <a class="btn btn-primary" href="{{ url_for('add_book') }}">Add book</a>
+    </div>
+</div>
+{% endif %}
+
+{% if current_user.user_type_id.id == 2 %}
+<div class="row">
+    {% for l in data.books %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <div class="card mb-4 shadow-sm">
+            {% set url = 'img/portadas/' + b.isbn + '.jpg' %}
+            <img src="{{ url_for('static', filename=url) }}" alt="{{ b.title }}" class="card-img-top" height="320">
+            <div class="card-body">
+                <h5 class="card-title">{{ b.title }} <span style="float: right;">USD/. {{ b.price }}</span></h5>
+                <p class="card-text">{{ b.author.full_name() }}</p>
+                <button id="{{ l.isbn }}" class="btn btn-block btn-primary btnBuyBook">Buy</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+</div>
+{% else %}
+<div class="row">
+    {% for l in data.books %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <div class="card mb-4 shadow-sm">
+            {% set url = 'img/portadas/' + b.isbn + '.jpg' %}
+            <img src="{{ url_for('static', filename=url) }}" alt="{{ b.title }}" class="card-img-top" height="320">
+            <div class="card-body">
+                <h5 class="card-title">{{ b.title }} <span style="float: right;">USD/. {{ b.price }}</span></h5>
+                <p class="card-text">{{ b.author.full_name() }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+{% endblock container %}
+
+{% block customJS %}
+    <script src="{{ url_for('static', filename='lib/sweetalert2-9.10.0/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notificationSwal.js') }}"></script>    
+    <script src="{{ url_for('static', filename='js/book_list.js') }}"></script>
+{% endblock customJS %}

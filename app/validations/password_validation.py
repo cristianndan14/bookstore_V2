@@ -13,13 +13,13 @@ class PasswordValidator:
             'is_different_username': True
         }
         self.error_messages = {
-            'min_length': 'La contraseña debe tener al menos 8 caracteres.',
-            'has_uppercase': 'La contraseña debe tener al menos una letra mayúscula.',
-            'has_lowercase': 'La contraseña debe tener al menos una letra minúscula.',
-            'has_digit': 'La contraseña debe tener al menos un dígito.',
-            'has_special_character': 'La contraseña debe tener al menos un caracter especial.',
-            'check_consecutive_numbers': 'La contraseña no debe contener números consecutivos ni números repetidos en bloque de tres o más.',
-            'check_username_difference': 'La contraseña no debe contener el nombre de usuario.'
+            'min_length': 'The password must be at least 8 characters long.',
+            'has_uppercase': 'The password must have at least one capital letter.',
+            'has_lowercase': 'The password must have at least one lowercase letter.',
+            'has_digit': 'The password must be at least one digit long.',
+            'has_special_character': 'The password must have at least one special character.',
+            'check_consecutive_numbers': 'The password must not contain consecutive numbers or numbers repeated in blocks of three or more.',
+            'check_username_difference': 'The password must not contain the username.'
         }
     
     def set_rule(self, rule, value):

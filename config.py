@@ -7,11 +7,11 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MYSQL_HOST = 'localhost'
-    MYSQL_PORT = 3308
+    MYSQL_HOST = '127.0.0.1'
+    MYSQL_PORT = 3306
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = config('MYSQL_PASSWORD')
-    MYSQL_DB = 'tienda'
+    MYSQL_DB = 'bookstore'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587  # TLS Transpor Layer Security
     MAIL_USE_TLS = True

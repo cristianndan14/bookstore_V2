@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 
-{% block title %} Inicio de sesión {% endblock title %}
+{% block title %} Login {% endblock title %}
 
 {% block customCSS %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
@@ -10,16 +10,16 @@
 <form class="form-signin w-100 m-auto" action="/login" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <img class="mb-4" src="{{ url_for('static', filename='img/bookstore.png') }}" alt="" height="57">
-    <h1 class="h3 mb-3 fw-normal">Inicio de Sesi&oacute;n</h1>
+    <h1 class="h3 mb-3 fw-normal">Login</h1>
     <br>
     <div class="form-floating">
         <!-- <label for="usuario">Usuario</label> -->
-        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" minlength="6" maxlength="20" required autofocus>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" minlength="4" maxlength="30" required autofocus>
     </div>
     <br>
     <div class="form-floating">
         <!-- <label for="password">Password</label> -->
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="6" required>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="8" required>
     </div>
   
     {% with messages = get_flashed_messages(with_categories=True) %}
@@ -52,10 +52,10 @@
     
     <br>
     <div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesi&oacute;n</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
     </div>
     <div>
-        <a class="btn" href="{{ url_for('register') }}">Crear una cuenta</a>
+        <a class="btn" href="{{ url_for('register') }}">Create an account</a>
     </div>
 
     <p class="mt-5 mb-3 text-muted">&copy;2022</p>

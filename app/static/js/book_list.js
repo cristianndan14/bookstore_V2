@@ -1,28 +1,28 @@
 (function () {
-  const btnsComprarLibro = document.querySelectorAll(".btnComprarLibro");
+  const btnsBuyBook = document.querySelectorAll(".btnBuyBook");
 
-  let isbnLibroSelecionado = null;
+  let isbnBookSelected = null;
   const csrf_token = document.querySelector("[name='csrf-token']").value;
 
-  btnsComprarLibro.forEach((btn) => {
+  btnsBuyBook.forEach((btn) => {
     btn.addEventListener("click", function () {
-      isbnLibroSelecionado = this.id;
-      confirmarComprar();
+      isbnBookSelected = this.id;
+      confirmPurchase();
     });
   });
 
-  const confirmarComprar = async () => {
+  const confirmPurchase = async () => {
     Swal.fire({
-        title: '¿Confirma la compra del libro seleccionado?',
+        title: 'Do you confirm the purchase of the selected book?',
         inputAttributes: {
             autocapitalize: 'off'
         },
         showCancelButton: true,
-        confirmButtonText: 'Comprar',
+        confirmButtonText: 'Buy',
         showLoaderOnConfirm: true,
       preConfirm: async () => {
         console.log(window.origin);
-        return await fetch(`${window.origin}/comprarLibro`, {
+        return await fetch(`${window.origin}/BuyBook`, {
           method: "POST",
           mode: "same-origin",
           credentials: "same-origin",
@@ -31,24 +31,24 @@
             "X-CSRF-TOKEN": csrf_token,
           },
           body: JSON.stringify({
-            'isbn': isbnLibroSelecionado,
+            'isbn': isbnBookSelected,
           }),
         })
           .then((response) => {
             if (!response.ok) {
-              notificacionSwal('Error', response.statusText, 'error', 'Cerrar');
+              notificationSwal('Error', response.statusText, 'error', 'Close');
             }
             return response.json();
           })
           .then((data) => {
-            if(data.exito){
-                notificacionSwal('¡Éxito!', 'Libro Comprado', 'success', '¡Ok!');
+            if(data.success){
+                notificationSwal('¡Success!', 'Book Purchased', 'success', '¡Ok!');
             }else{
-                notificacionSwal('¡Alerta!', data.mensaje, 'warning', 'Ok');
+                notificationSwal('¡Alert!', data.message, 'warning', 'Ok');
             }
           })
           .catch((error) => {
-            notificacionSwal('Error', error, 'error', 'Cerrar');
+            notificationSwal('Error', error, 'error', 'Close');
           });
       },
       allowOutsideClick: () => false,
