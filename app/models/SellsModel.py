@@ -20,14 +20,14 @@ class SellsModel():
     def list_user_purchases(cls, db, users):
         try:
             cursor = db.connection.cursor()
-            sql = """SELECT S.datetime, B.isbn, B.title, B.price 
+            sql = """SELECT S.datetime, B.isbn, B.title, B.price, B.cover
                     FROM sells S JOIN book B ON S.isbn_book = B.isbn
                     WHERE S.id_user = {0}""".format(users.id)
             cursor.execute(sql)
             data = cursor.fetchall()
             sells = []
             for row in data:
-                b = Book(row[1], row[2], None, None, row[3])
+                b = Book(row[1], row[2], None, None, row[3], row[4])
                 s = Sells(None, b, users, row[0])
                 sells.append(s)
             return sells

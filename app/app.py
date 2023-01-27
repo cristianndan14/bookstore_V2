@@ -11,6 +11,7 @@ from .routes.buyBook import init_buyBook
 from .routes.index import init_index
 from .routes.books import init_book
 from .routes.errors import init_errors
+from .routes.author import init_author
 
 app = Flask(__name__)
 
@@ -25,6 +26,7 @@ init_auth(app, db)
 init_buyBook(app, db, mail)
 init_index(app, db)
 init_book(app, db)
+init_author(app, db)
 init_errors(app)
 
 
