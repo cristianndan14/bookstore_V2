@@ -69,8 +69,8 @@ class BookModel():
 
     @classmethod
     def add_book(cls, db, book):
-        if not book.isbn or not book.title or not book.author or not book.publication_date or not book.price or not book.cover:
-            raise ValueError("All fields are required!")
+        """ if not book.isbn or not book.title or not book.author or not book.publication_date or not book.price or not book.cover:
+            raise ValueError("All fields are required!") """
 
         error_msg = None
 

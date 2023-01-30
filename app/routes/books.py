@@ -21,6 +21,7 @@ def init_book(app, db):
             }
             return render_template('book_list.html', data=data)
         except Exception as ex:
+            print(ex)
             return render_template('errors/error.html', message=format(ex))
 
     @app.route('/books/add_book', methods=['GET', 'POST'])
@@ -36,12 +37,16 @@ def init_book(app, db):
                     isbn = isbn_from_words(request.form['Title'])
                     title = request.form['Title']
                     author = request.form['Author']
-                    publication_date = request.form['publication_date']
+                    publication_date = request.form['Publication_date']
                     price = request.form['Price']
-                    cover = request.files.get('cover')
+                    cover = request.files.get('customFile')
 
-                    cover.save(f'static/img/covers/{cover.filename}')
-                    cover_route = f'static/img/covers/{cover.filename}'
+                    """ SOLUCIONAR RUTA DE IMAGEN """
+
+                    cover.save(f'UPLOADS_COVERS_PATH{cover.filename}')
+                    cover_route = f'UPLOADS_COVERS_PATH{cover.filename}'
+
+                    """ SOLUCIONAR RUTA DE IMAGEN """
 
                     new_book = Book(isbn, title, author,
                                     publication_date, price, cover_route)
@@ -50,13 +55,15 @@ def init_book(app, db):
 
                     if add_book != None:
                         """AGREGAR flashmessages"""
-                        return redirect(url_for('books'))
+                        print("esto funciono!!!")
+                        return redirect(url_for('book_list'))
                     else:
                         return render_template('add_book.html', data=data)
 
                 return render_template('add_book.html', data=data)
 
             except Exception as ex:
+                print(ex)
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('books'))

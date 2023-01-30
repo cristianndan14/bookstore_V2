@@ -38,13 +38,14 @@ def init_author(app, db):
 
                     if add_author != None:
                         """AGREGAR flashmessages"""
-                        return redirect(url_for('authors'))
+                        return redirect(url_for('author_list'))
                     else:
                         return render_template('add_author.html')
 
                 return render_template('add_author.html')
 
             except Exception as ex:
+                print(ex)
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('authors'))

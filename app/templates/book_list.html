@@ -19,7 +19,7 @@
     </div>
 </div>
 {% endif %}
-
+<br>
 {% if current_user.user_type_id.id == 2 %}
 <div class="row">
     {% for b in data.books %}
@@ -29,7 +29,7 @@
             <img src="{{ b.cover }}" alt="{{ b.title }}" class="card-img-top" height="320">
             <div class="card-body">
                 <h5 class="card-title">{{ b.title }} <span style="float: right;">USD/. {{ b.price }}</span></h5>
-                <p class="card-text">{{ b.author.full_name() }}</p>
+                <p class="card-text">{{ b.id_author.full_name() }}</p>
                 <button id="{{ b.isbn }}" class="btn btn-block btn-primary btnBuyBook">Buy</button>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <img src="{{ b.cover }}" alt="{{ b.title }}" class="card-img-top" height="320">
             <div class="card-body">
                 <h5 class="card-title">{{ b.title }} <span style="float: right;">USD/. {{ b.price }}</span></h5>
-                <p class="card-text">{{ b.author.full_name() }}</p>
+                <p class="card-text">{{ b.id_author.full_name() }}</p>
             </div>
         </div>
     </div>
