@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from isbnlib import isbn_from_words
 
@@ -6,6 +6,8 @@ from ..models.BookModel import BookModel
 from ..models.AuthorModel import AuthorModel
 
 from ..models.entities.book import Book
+
+from ..consts import *
 
 
 def init_book(app, db):
@@ -19,10 +21,12 @@ def init_book(app, db):
                 'title': 'Book list',
                 'books': books
             }
+
             return render_template('book_list.html', data=data)
         except Exception as ex:
-            print(ex)
             return render_template('errors/error.html', message=format(ex))
+
+
 
     @app.route('/books/add_book', methods=['GET', 'POST'])
     @login_required
@@ -41,12 +45,8 @@ def init_book(app, db):
                     price = request.form['Price']
                     cover = request.files.get('customFile')
 
-                    """ SOLUCIONAR RUTA DE IMAGEN """
-
-                    cover.save(f'UPLOADS_COVERS_PATH{cover.filename}')
-                    cover_route = f'UPLOADS_COVERS_PATH{cover.filename}'
-
-                    """ SOLUCIONAR RUTA DE IMAGEN """
+                    cover.save(f'C:/practicas/tienda/app/static/img/covers/{cover.filename}')
+                    cover_route = f'img/covers/{cover.filename}'
 
                     new_book = Book(isbn, title, author,
                                     publication_date, price, cover_route)
@@ -54,8 +54,7 @@ def init_book(app, db):
                     add_book = BookModel.add_book(db, new_book)
 
                     if add_book != None:
-                        """AGREGAR flashmessages"""
-                        print("esto funciono!!!")
+                        flash(ADD_BOOK_SUCCESS, 'success')
                         return redirect(url_for('book_list'))
                     else:
                         return render_template('add_book.html', data=data)

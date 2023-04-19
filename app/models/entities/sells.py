@@ -3,10 +3,10 @@ import datetime
 
 class Sells:
 
-    def __init__(self, uuid, book_isbn, user_id, datetime=None):
+    def __init__(self, uuid, isbn_book, id_user, datetime=None):
         self.uuid = uuid
-        self.book_isbn = book_isbn
-        self.user_id = user_id
+        self.isbn_book = isbn_book
+        self.id_user = id_user
         self.datetime = datetime
 
     def formatted_date(self):

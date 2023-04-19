@@ -22,7 +22,7 @@
         showLoaderOnConfirm: true,
       preConfirm: async () => {
         console.log(window.origin);
-        return await fetch(`${window.origin}/BuyBook`, {
+        return await fetch(`${window.origin}/buyBook`, {
           method: "POST",
           mode: "same-origin",
           credentials: "same-origin",

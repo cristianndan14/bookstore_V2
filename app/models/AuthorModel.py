@@ -26,8 +26,8 @@ class AuthorModel():
     @classmethod
     def add_author(cls, db, author):
         """ if author.last_name or not author.name or not author.birth_date:
-            raise ValueError("All fields are required!")
- """
+            raise ValueError("All fields are required!")"""
+            
         error_msg = None
 
         try:

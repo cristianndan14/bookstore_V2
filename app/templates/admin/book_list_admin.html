@@ -1,0 +1,62 @@
+{% block customCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock customCSS%}
+
+{% block container %}
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <a class="btn btn-primary" href="{{ url_for('add_book') }}">Add book</a>
+    </div>
+</div>
+<br>
+<div class="row">
+    {% if data.books|length > 0 %}
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Published</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in data.books %}
+                    <tr>
+                        <td><input type="checkbox" name="book_checkbox_{{ b.isbn }}" value="{{ b.isbn }}"></td>
+                        <td>{{ b.isbn }}</td>
+                        <td>{{ b.title }}</td>
+                        <td>{{ b.id_author.full_name() }}</td>
+                        <td>{{ b.publication_date }}</td>
+                        <td>{{ b.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h2>There are not books upload yet!</h2>
+        </div>
+    {% endif %}
+</div>
+
+{% block customJS %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock customJS %}
+
+<script>
+    $(function() {
+        // Agregar un controlador de eventos para el checkbox "Seleccionar todo"
+        $('#select-all').click(function() {
+            $(':checkbox[name^="book_checkbox_"]').prop('checked', this.checked);
+        });
+    });
+</script>
+
+{% endblock container %}
