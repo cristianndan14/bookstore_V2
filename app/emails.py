@@ -3,37 +3,22 @@ from flask_mail import Message
 from flask import current_app, render_template
 
 
-"""def confirmacion_compra(mail, usuario, libro):
+def order_mail_confirmation(app, email, username, book):
     try:
-        message = Message('Confirmación de compra de libro',
+        message = Message('Book order confirmation',
                           sender=current_app.config['MAIL_USERNAME'],
                           recipients=['cristianndan14@gmail.com'])
         message.html = render_template(
-            'emails/confirmacion_compra.html',
-            usuario=usuario,
-            libro=libro
+            'emails/order_confirmation.html',
+            username=username,
+            book=book
         )
-        mail.send(message)
-    except Exception as ex:
-        raise Exception(ex)"""
-
-
-def confirmacion_compra(app, mail, usuario, libro):
-    try:
-        message = Message('Confirmación de compra de libro',
-                          sender=current_app.config['MAIL_USERNAME'],
-                          recipients=['cristianndan14@gmail.com'])
-        message.html = render_template(
-            'emails/confirmacion_compra.html',
-            usuario=usuario,
-            libro=libro
-        )
-        thread = Thread(target=envio_email_async, args=[app, mail, message])
+        thread = Thread(target=send_email_async, args=[app, email, message])
         thread.start()
     except Exception as ex:
         raise Exception(ex)
 
 
-def envio_email_async(app, mail, message):
+def send_email_async(app, mail, message):
     with app.app_context():
         mail.send(message)

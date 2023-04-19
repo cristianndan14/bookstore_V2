@@ -1,24 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url_for('index') }}">Tienda "Ateneo"</a>
+    <a class="navbar-brand" href="{{ url_for('index') }}">BookStore "Ateneo"</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('index') }}">Index</a>
+          <a class="nav-link" href="{{ url_for('index') }}">Home</a>
         </li>
-        {% if current_user.tipousuario.id == 2 %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('listar_libros') }}">Libros</a>
+          <a class="nav-link" href="{{ url_for('book_list') }}">Books</a>
         </li>
-        {% endif %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesi&oacute;n</a>
+          <a class="nav-link" href="{{ url_for('author_list') }}">Authors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
         </li>
       </ul>
       <span class="navbar-text">
-          <strong>{{ current_user.usuario }}</strong>  ({{ current_user.tipousuario.nombre }})
+          <strong>{{ current_user.username }}</strong>  ({{ current_user.user_type_id.type }})
       </span>
     </div>
   </nav>

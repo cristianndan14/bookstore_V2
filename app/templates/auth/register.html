@@ -1,0 +1,80 @@
+{% extends './base.html' %}
+
+{% block title %} Register {% endblock title %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock customCSS %}
+
+{% block body %}
+<form class="form-signin w-100 m-auto" action="/register" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <img class="mb-4" src="{{ url_for('static', filename='img/bookstore.png') }}" alt="" height="57">
+  <h1 class="h3 mb-3 fw-normal">Create an account</h1>
+  <br>
+  <div class="form-floating">
+    <input type="text" class="form-control" id="name" name="name" placeholder="Name" minlength="1" maxlength="50" required autofocus>
+  </div>
+  <div class="form-floating">
+    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" minlength="1" maxlength="50" required autofocus>
+  </div>
+  <br>
+  <div class="form-floating">
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username" minlength="4" maxlength="30" required autofocus>
+  </div>
+  <br>
+  <div class="form-floating">
+    <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" minlength="5" maxlength="50" required autofocus>
+  </div>
+  <br>
+  <div class="form-floating">
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="8" maxlength="32" required>
+  </div>
+  <div class="form-floating">
+    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm password" minlength="8" maxlength="32" required>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=True) %}
+
+  {% if messages %}
+      <br/>
+      {% for category, message in messages %}
+
+          {% if category == 'warning' %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong style="font-size: 14px;">{{ message }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          {% else %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong style="font-size: 14px;">{{ message }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          {% endif %}
+
+      {% endfor %}
+
+  {% endif %}
+
+{% endwith %}
+
+  <br>
+  <div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+  </div>
+  <div>
+    <a class="btn" href="{{ url_for('login') }}">I already have an account</a>
+</div>
+  <p class="mt-5 mb-3 text-muted">&copy;2022</p>
+</form>
+  
+{% block customJS %}
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js/password.js') }}"></script>
+{% endblock customJS %}
+
+{% endblock body %}

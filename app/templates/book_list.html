@@ -1,0 +1,21 @@
+{% extends './body.html' %}
+
+{% block title %}Book list{% endblock title %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h1>{{ data.title }}</h1>
+    </div>
+</div>
+
+<hr>
+
+{% if current_user.user_type_id.id == 1 %}
+    {% include './admin/book_list_admin.html' %}
+{% else %}
+    {% include './users/book_list_user.html' %}
+{% endif %}
+
+{% endblock container %}

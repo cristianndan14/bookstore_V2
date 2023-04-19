@@ -1,0 +1,43 @@
+{% extends './body.html' %}
+
+{% block title %}Author list{% endblock title %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h1>{{ data.title }}</h1>
+    </div>
+</div>
+
+<hr>
+
+{% if current_user.user_type_id.id == 1 %}
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <a class="btn btn-primary" href="{{ url_for('add_author') }}">Add author</a>
+    </div>
+</div>
+{% endif %}
+<br>
+
+<div class="row">
+    {% for a in data.authors %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ a.full_name() }}</h5>
+                <p class="card-text">Birth date: {{ a.birth_date }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock container %}
+
+{% block customJS %}
+    <script src="{{ url_for('static', filename='lib/sweetalert2-9.10.0/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notificationSwal.js') }}"></script>
+{% endblock customJS %}

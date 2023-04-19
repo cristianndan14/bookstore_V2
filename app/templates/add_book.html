@@ -1,0 +1,58 @@
+{% extends './body.html' %}
+
+{% block title %}Add Book{% endblock title %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock customCSS %}
+
+{% block body %}
+
+
+
+<form class="form-signin w-100 m-auto" enctype="multipart/form-data" action="/books/add_book" method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <h1>Add new book</h1>
+      </div>
+    </div>
+    <hr>
+    <div class="form-group">
+      <label for="Title">Title</label>
+      <input type="text" class="form-control" id="Title" name="Title" placeholder="Title" required>
+    </div>
+    <div class="form-group">
+      <label for="Author">Select author</label>
+      <select class="form-control" id="Author" name="Author" required>
+          <option>...</option>
+          {% for aut in data.authors %}
+            <option value="{{ aut.id_author}}">{{ aut.full_name() }}</option>
+          {% endfor %}
+      </select>
+    </div>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFile" name="customFile" >
+        <label class="custom-file-label" for="customFile">Choose cover book</label>
+    </div>
+    <br>
+    <br>
+    <div class="form-group">
+        <label for="publication_date">Publication date</label>
+        <input type="date" class="form-control" id="publication_date" name="Publication_date">
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" class="form-control" step="0.01" max="9999.99" id="Price" name="Price" placeholder="Price in USD" required>
+    </div>
+    <div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>
+    </div>
+</form>
+
+{% endblock body %}
+
+
+{% block customJS %}
+  <script src="{{ url_for('static', filename='js/add_book.js') }}"></script>
+{% endblock customJS %}
