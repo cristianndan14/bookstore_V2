@@ -3,6 +3,8 @@ from decouple import config
 
 class Config:
     SECRET_KEY = 'bM#@zeMW85axLe8Tsh'
+    UPLOAD_FOLDER = 'app/static/img/covers'
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 class DevelopmentConfig(Config):
