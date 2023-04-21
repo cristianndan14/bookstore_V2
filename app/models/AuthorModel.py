@@ -12,14 +12,16 @@ class AuthorModel():
             sql = """SELECT id_author, name, last_name, birth_date FROM author"""
             cursor.execute(sql)
             data = cursor.fetchall()
-            authors = []
-            for row in data:
-                aut = Author(row[0], row[1], row[2], row[3])
-                authors.append(aut)
-            return authors
+            authors = [Author(*row) for row in data]
+            author_dict = {author.id_author: {
+                                'name': author.name,
+                                'last_name': author.last_name,
+                                'birth_date': author.birth_date
+                                }
+                            for author in authors}
+            return author_dict
         except Exception as ex:
             raise Exception(ex)
-
         finally:
             cursor.close()
 

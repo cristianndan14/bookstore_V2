@@ -32,9 +32,7 @@ def init_auth(app, db):
                 return render_template('auth/login.html')
         else:
             return render_template('auth/login.html')
-
-
-    """CONTINUE BUILDING REGISTER FEATURE"""
+            
 
     @app.route('/register', methods=['GET', 'POST'])
     def register():

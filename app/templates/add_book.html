@@ -43,6 +43,30 @@
       <label class="custom-file-label" for="customFile">Upload cover book</label>
       <input type="file" class="custom-file-input" id="customFile" name="customFile">
     </div>
+    <br>
+    <!-- START flash messages -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'warning' %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong style="font-size: 14px;">{{ message }}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% else %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong style="font-size: 14px;">{{ message }}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <!-- END flash messages -->
     <hr>
     <div>
       <button class="w-100 btn btn-lg btn-primary mt-5" type="submit">Create</button>

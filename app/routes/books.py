@@ -43,7 +43,16 @@ def init_book(app, db):
     def add_book():
         if current_user.user_type_id.id == 1:
             try:
-                authors = AuthorModel.author_list(db)
+                authors_dict = AuthorModel.author_list(db)
+                # IMPLEMENTAR FOR DENTRO DEL IF
+                """ for author_id, author_info in authors_dict.items():
+                    if author_info['name'] == 'Ryan' and author_info['last_name'] == 'Holyday':
+                        print(f"ID del autor: {author_id}")
+                        print(f"Nombre completo: {author_info['name']} {author_info['last_name']}")
+                        print(f"Fecha de nacimiento: {author_info['birth_date']}")
+                        break
+                    else:
+                        print("No se encontró ningún autor con ese nombre.") """
                 if request.method == 'POST':
                     isbn = isbn_from_words(request.form['Title'])
                     title = request.form['Title']
@@ -52,40 +61,25 @@ def init_book(app, db):
                     author_birthdate = request.form['Author_birthdate']
                     publication_date = request.form['Publication_date']
                     price = request.form['Price']
-
-                    # Check if file was uploaded
-                    if 'customFile' not in request.files:
-                        flash('No file part')
-                        return redirect(request.url)
                     file = request.files['customFile']
-                    if file.filename == '':
-                        flash('No selected file')
-                        return redirect(request.url)
-                    if not allowed_file(file.filename):
-                        flash('Invalid file type')
-                        return redirect(request.url)
+                    
                     filename = secure_filename(file.filename)
                     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
                     cover_route = f'/img/covers/{filename}'
 
-
                     new_author = Author(None, author_name, author_lastname, author_birthdate)
-
                     add_author = AuthorModel.add_author(db, new_author)
 
-                    if add_author != None:
-                        id_author = len(authors) + 1
-                        new_book = Book(isbn, title, id_author,
-                                        publication_date, price, cover_route)
+
+                    if add_author != None and add_book != None:
+                        id_author = len(authors_dict) + 1
+                        new_book = Book(isbn, title, id_author, publication_date, price, cover_route)
                         add_book = BookModel.add_book(db, new_book)
 
-                        if add_book != None:
-                            flash(ADD_BOOK_SUCCESS, 'success')
-                            return redirect(url_for('book_list'))
-                        else:
-                            return render_template('add_book.html')
+                        flash(ADD_BOOK_SUCCESS, 'success')
+                        return redirect(url_for('book_list'))
                     else:
-                            return render_template('add_book.html')
+                        return render_template('add_book.html')
 
                 return render_template('add_book.html')
 
