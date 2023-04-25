@@ -9,15 +9,14 @@ from ..models.BookModel import BookModel
 from ..models.AuthorModel import AuthorModel
 
 from ..models.entities.book import Book
-from ..models.entities.author import Author
 
 from ..consts import *
 
 
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
-
+        filename.rsplit('.', 1)[1].lower(
+        ) in current_app.config['ALLOWED_EXTENSIONS']
 
 
 def init_book(app, db):
@@ -36,55 +35,52 @@ def init_book(app, db):
         except Exception as ex:
             return render_template('errors/error.html', message=format(ex))
 
-
-
     @app.route('/books/add_book', methods=['GET', 'POST'])
     @login_required
     def add_book():
         if current_user.user_type_id.id == 1:
             try:
-                authors_dict = AuthorModel.author_list(db)
-                # IMPLEMENTAR FOR DENTRO DEL IF
-                """ for author_id, author_info in authors_dict.items():
-                    if author_info['name'] == 'Ryan' and author_info['last_name'] == 'Holyday':
-                        print(f"ID del autor: {author_id}")
-                        print(f"Nombre completo: {author_info['name']} {author_info['last_name']}")
-                        print(f"Fecha de nacimiento: {author_info['birth_date']}")
-                        break
-                    else:
-                        print("No se encontró ningún autor con ese nombre.") """
+                authors = AuthorModel.author_list(db)
+                data = {
+                    'title': 'Author list',
+                    'authors': authors
+                }
                 if request.method == 'POST':
                     isbn = isbn_from_words(request.form['Title'])
                     title = request.form['Title']
-                    author_name = request.form['Author_name']
-                    author_lastname = request.form['Author_lastname']
-                    author_birthdate = request.form['Author_birthdate']
                     publication_date = request.form['Publication_date']
                     price = request.form['Price']
-                    file = request.files['customFile']
-                    
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-                    cover_route = f'/img/covers/{filename}'
+                    file = request.files.get('customFile')
+                    id_author = request.form['id_author']
+                    filename = ''
+                    cover_route = ''
 
-                    new_author = Author(None, author_name, author_lastname, author_birthdate)
-                    add_author = AuthorModel.add_author(db, new_author)
+                    if file.filename == '':
+                        cover_route = '/img/covers/not-cover.png'
+                    else:
+                        filename = secure_filename(file.filename)
+                        if not allowed_file(filename):
+                            flash(FILE_NOT_SUPPORTED, 'warning')
+                            return redirect(url_for('add_book'))
+                        cover_route = f'/img/covers/{filename}'
+                        file.save(os.path.join(
+                            current_app.config['UPLOAD_COVERS'], filename))
 
+                    new_book = Book(isbn, title, id_author,
+                                    publication_date, price, cover_route)
+                    add_book = BookModel.add_book(db, new_book)
 
-                    if add_author != None and add_book != None:
-                        id_author = len(authors_dict) + 1
-                        new_book = Book(isbn, title, id_author, publication_date, price, cover_route)
-                        add_book = BookModel.add_book(db, new_book)
-
+                    if add_book != None:
                         flash(ADD_BOOK_SUCCESS, 'success')
                         return redirect(url_for('book_list'))
                     else:
                         return render_template('add_book.html')
 
-                return render_template('add_book.html')
+                return render_template('add_book.html',
+                                       data=data,
+                                       )
 
             except Exception as ex:
-                print(ex)
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('books'))

@@ -5,4 +5,4 @@ REGISTER_SUCCESS = 'User successfully registered.'
 WELCOME_MESSAGE = 'Welcome to the "Ateneo" store!'
 ADD_BOOK_SUCCESS = 'Book successfully added!'
 ADD_AUTHOR_SUCCESS = 'Author successfully added!'
-
+FILE_NOT_SUPPORTED = 'Please choose another image supported'

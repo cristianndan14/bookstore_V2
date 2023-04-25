@@ -13,13 +13,7 @@ class AuthorModel():
             cursor.execute(sql)
             data = cursor.fetchall()
             authors = [Author(*row) for row in data]
-            author_dict = {author.id_author: {
-                                'name': author.name,
-                                'last_name': author.last_name,
-                                'birth_date': author.birth_date
-                                }
-                            for author in authors}
-            return author_dict
+            return authors
         except Exception as ex:
             raise Exception(ex)
         finally:

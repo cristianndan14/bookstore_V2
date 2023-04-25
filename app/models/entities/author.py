@@ -7,4 +7,4 @@ class Author:
         self.birth_date = birth_date
 
     def full_name(self):
-        return "{0}, {1}".format(self.last_name, self.name)
+        return "{0} {1}".format(self.name, self.last_name)

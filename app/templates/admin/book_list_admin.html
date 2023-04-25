@@ -9,6 +9,30 @@
     </div>
 </div>
 <br>
+<!-- START flash messages -->
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+  {% for category, message in messages %}
+    {% if category == 'warning' %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong style="font-size: 14px;">{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% else %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong style="font-size: 14px;">{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endwith %}
+<!-- END flash messages -->
+<br>
 <div class="row">
     {% if data.books|length > 0 %}
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
