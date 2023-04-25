@@ -25,7 +25,7 @@ def init_auth(app, db):
             logged_user = UserModel.login(db, user)
             if logged_user != None:
                 login_user(logged_user)
-                flash(WELCOME_MESSAGE, 'success')
+                flash(WELCOME_MESSAGE,'success')
                 return redirect(url_for('index'))
             else:
                 flash(LOGIN_INVALIDCREDENTIALS, 'warning')
@@ -54,7 +54,6 @@ def init_auth(app, db):
             
             if validation[0] == False:
                 for e in validation[1]:
-                    print(e)
                     flash(e, 'warning')
                 return render_template('auth/register.html')
                 

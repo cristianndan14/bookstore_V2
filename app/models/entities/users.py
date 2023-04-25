@@ -16,3 +16,9 @@ class User(UserMixin):
     @classmethod
     def verify_password(cls, encrypted, password):
         return check_password_hash(encrypted, password)
+
+    def full_name(self):
+        return "{0} {1}".format(self.name, self.last_name)
+
+    def get_id(self):
+        return str(self.id_user)

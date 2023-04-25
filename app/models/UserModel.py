@@ -8,7 +8,6 @@ class UserModel():
     @classmethod
     def login(cls, db, user):
         logged_user = None
-
         try:
             cursor = db.connection.cursor()
             sql = """SELECT id_user, username, password 
@@ -34,18 +33,17 @@ class UserModel():
     @classmethod
     def get_user_id(cls, db, id):
         logged_user = None
-
         try:
             cursor = db.connection.cursor()
-            sql = """SELECT U.id_user, U.username, UT.id_user_type, UT.type 
+            sql = """SELECT U.id_user, U.username, U.email, U.name, U.last_name, UT.id_user_type, UT.type 
                     FROM user U JOIN user_type UT ON U.id_user_type = UT.id_user_type
                     WHERE U.id_user = %s"""
             cursor.execute(sql, (id,))
             data = cursor.fetchone()
             if data:
-                user_type = UserType(data[2], data[3])
+                user_type = UserType(data[5], data[6])
                 logged_user = User(
-                    data[0], data[1], None, user_type, None, None, None
+                    data[0], data[1], None, user_type, data[2], data[3], data[4]
                 )
             else:
                 return False

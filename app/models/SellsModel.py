@@ -22,7 +22,8 @@ class SellsModel():
             cursor = db.connection.cursor()
             sql = """SELECT S.datetime, B.isbn, B.title, B.price, B.cover
                     FROM sells S JOIN book B ON S.isbn_book = B.isbn
-                    WHERE S.id_user = {0}""".format(user.id_user)
+                    WHERE S.id_user = {0}
+                    ORDER BY S.datetime DESC""".format(user.id_user)
             cursor.execute(sql)
             data = cursor.fetchall()
             sells = []

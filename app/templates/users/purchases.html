@@ -1,0 +1,20 @@
+<div class="row">
+    {% if data.orders|length > 0 %}
+        {% for p in data.orders %}
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ url_for('static', filename=p.isbn_book.cover) }}" alt="{{ p.isbn_book.title }}" class="card-img-top" height="320">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.isbn_book.title }} <span style="float: right;">USD/. {{ p.isbn_book.price }}</span></h5>
+                        <p class="card-text">Purchased: {{ p.formatted_date() }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h2>You haven't bought books yet!</h2>
+        </div>
+    {% endif %}
+</div>
+    
