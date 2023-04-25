@@ -79,14 +79,14 @@
     {% else %}
 
         {% if data.orders|length > 0 %}
-            {% for e in data.orders %}
+            {% for p in data.orders %}
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
                     <div class="card mb-4 shadow-sm">
-                        {% set url = 'img/portadas/' + s.book.isbn + '.jpg' %}
-                        <img src="{{ url_for('static', filename=url) }}" alt="{{ s.book.title }}" class="card-img-top" height="320">
+                    
+                        <img src="{{ url_for('static', filename=p.isbn_book.cover) }}" alt="{{ p.isbn_book.title }}" class="card-img-top" height="320">
                         <div class="card-body">
-                            <h5 class="card-title">{{ s.book.title }} <span style="float: right;">USD/. {{ s.book.price}}</span></h5>
-                            <p class="card-text">Purchased: {{ c.formatted_date() }}</p>
+                            <h5 class="card-title">{{ p.isbn_book.title }} <span style="float: right;">USD/. {{ p.isbn_book.price }}</span></h5>
+                            <p class="card-text">Purchased: {{ p.formatted_date() }}</p>
                         </div>
                     </div>
                 </div>

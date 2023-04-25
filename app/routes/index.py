@@ -30,6 +30,7 @@ def init_index(app, db):
                     }
                     return render_template('index.html', data=data)
                 except Exception as ex:
+                    print(ex)
                     return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('login'))
