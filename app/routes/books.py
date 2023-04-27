@@ -84,3 +84,55 @@ def init_book(app, db):
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('books'))
+
+
+    @app.route('/books/edit_book/<isbn>', methods=['GET', 'POST'])
+    @login_required
+    def edit_book(isbn):
+        if current_user.user_type_id.id == 1:
+            try:
+                authors = AuthorModel.author_list(db)
+                data = {
+                    'title': 'Author list',
+                    'authors': authors
+                }
+                book = BookModel.load_book(db, isbn)
+                if request.method == 'POST':
+                    isbn = book.isbn
+                    title = request.form['Title']
+                    publication_date = request.form['Publication_date']
+                    price = request.form['Price']
+                    file = request.files.get('customFile')
+                    id_author = request.form['id_author']
+                    filename = ''
+                    cover_route = ''
+
+                    if file.filename == '':
+                        cover_route = book.cover
+                    else:
+                        filename = secure_filename(file.filename)
+                        if not allowed_file(filename):
+                            flash(FILE_NOT_SUPPORTED, 'warning')
+                            return redirect(url_for('add_book'))
+                        cover_route = f'/img/covers/{filename}'
+                        file.save(os.path.join(
+                            current_app.config['UPLOAD_COVERS'], filename))
+
+                    book = Book(isbn, title, id_author,
+                                    publication_date, price, cover_route)
+                    edit_book = BookModel.edit_book(db, book)
+
+                    if edit_book != None:
+                        flash(EDIT_BOOK_SUCCESS, 'success')
+                        return redirect(url_for('book_list'))
+                    else:
+                        return render_template('edit_book.html')
+
+                return render_template('edit_book.html',
+                                       data=data,
+                                       book=book
+                                       )
+            except Exception as ex:
+                return render_template('errors/error.html', message=format(ex))
+        else:
+            return redirect(url_for('books'))

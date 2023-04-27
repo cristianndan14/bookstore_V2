@@ -21,14 +21,14 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ b.title }}</td>
                             <td>{{ b.items_sold }}</td>
-                            <td>USD/. {{ b.price }}</td>
-                            <td>USD/. {{ (b.price * b.items_sold) }}</td>
+                            <td>${{ b.price }}</td>
+                            <td>${{ (b.price * b.items_sold) }}</td>
                         </tr>
                         {% set contador.total = contador.total + (b.price * b.items_sold) %}
                         {% endfor %}
                         <tr>
                             <td colspan="4"></td>
-                            <td><strong>USD./ {{ contador.total }}</strong></td>
+                            <td><strong>${{ contador.total }}</strong></td>
                         </tr>
                     </tbody>
                 </table>

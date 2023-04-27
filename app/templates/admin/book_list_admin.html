@@ -40,23 +40,25 @@
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th><input type="checkbox" id="select-all"></th>
+                        <!-- <th><input type="checkbox" id="select-all"></th> -->
                         <th>ISBN</th>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Published</th>
                         <th>Price</th>
+                        <th>Published</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for b in data.books %}
                     <tr>
-                        <td><input type="checkbox" name="book_checkbox_{{ b.isbn }}" value="{{ b.isbn }}"></td>
+                        <!-- <td><input type="checkbox" name="book_checkbox_{{ b.isbn }}" value="{{ b.isbn }}"></td> -->
                         <td>{{ b.isbn }}</td>
                         <td>{{ b.title }}</td>
                         <td>{{ b.id_author.full_name() }}</td>
+                        <td>${{ b.price }}</td>
                         <td>{{ b.publication_date }}</td>
-                        <td>{{ b.price }}</td>
+                        <td><a href="/books/edit_book/{{ b.isbn }}" type="button">edit</a> <a href="#!" type="button">delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -24,7 +24,6 @@ class BookModel():
             return books
         except Exception as ex:
             raise Exception(ex)
-
         finally:
             cursor.close()
 
@@ -40,7 +39,6 @@ class BookModel():
             return book
         except Exception as ex:
             raise Exception(ex)
-
         finally:
             cursor.close()
 
@@ -63,7 +61,6 @@ class BookModel():
             return books
         except Exception as ex:
             raise Exception(ex)
-
         finally:
             cursor.close()
 
@@ -71,9 +68,7 @@ class BookModel():
     def add_book(cls, db, book):
         """ if not book.isbn or not book.title or not book.author or not book.publication_date or not book.price or not book.cover:
             raise ValueError("All fields are required!") """
-
         error_msg = None
-
         try:
             cursor = db.connection.cursor()
             sql = """INSERT INTO book(isbn, title, id_author, publication_date, price, cover)
@@ -84,14 +79,26 @@ class BookModel():
                  book.publication_date, book.price, book.cover,)
             )
             db.connection.commit()
-
         except pymysql.Error as ex:
             error_msg = ex.args[1]
             db.connection.rollback()
-
         finally:
             cursor.close()
-
         if error_msg:
             raise ValueError(error_msg)
         return True
+
+    @classmethod
+    def load_book(cls, db, isbn):
+        try:
+            cursor = db.connection.cursor()
+            sql = """SELECT isbn, title, id_author, publication_date, price, cover
+                    FROM book WHERE isbn = '{0}'""".format(isbn)
+            cursor.execute(sql)
+            data = cursor.fetchone()
+            book = Book(data[0], data[1], data[2], data[3], data[4], data[5])
+            return book
+        except Exception as ex:
+            raise Exception(ex)
+        finally:
+            cursor.close()
