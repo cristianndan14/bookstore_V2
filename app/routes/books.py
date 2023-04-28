@@ -97,6 +97,7 @@ def init_book(app, db):
                     'authors': authors
                 }
                 book = BookModel.load_book(db, isbn)
+                
                 if request.method == 'POST':
                     isbn = book.isbn
                     title = request.form['Title']
@@ -133,6 +134,7 @@ def init_book(app, db):
                                        book=book
                                        )
             except Exception as ex:
+                print(ex)
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('books'))

@@ -15,7 +15,7 @@
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <h1>Add new book</h1>
+          <h1>Edit book</h1>
       </div>
     </div>
     <hr>
@@ -46,26 +46,30 @@
     <!-- END flash messages -->
     <div class="form-group">
       <label for="Title">Title</label>
-      <input type="text" class="form-control" id="Title" name="Title" placeholder="Title" required>
+      <input type="text" class="form-control" id="Title" name="Title" placeholder="Title" required autocomplete="off" value="{{ book.title }}">
     </div>
     <div class="form-group">
       <label for="id_author">Select Author</label>
       <select class="form-control" name="id_author" id="id_author" required>
         {% for a in data.authors %}
-        <option value="{{ a.id_author}}">{{ a.full_name()}}</option>
+          {% if a.id_author == book.id_author %}
+            <option value="{{ a.id_author }}" selected>{{ a.full_name() }}</option>
+          {% else %}
+            <option value="{{ a.id_author}}">{{ a.full_name() }}</option>
+          {% endif %}
         {% endfor %}
       </select>
     </div>
     <div class="form-group">
       <label for="publication_date">Publication date</label>
-      <input type="date" class="form-control" id="Publication_date" name="Publication_date" required>
+      <input type="date" class="form-control" id="Publication_date" name="Publication_date" required autocomplete="off" value="{{ book.publication_date }}">
     </div>
     <div class="form-group">
       <label for="Price">Price</label>
-      <input type="number" class="form-control" step="0.01" max="9999.99" id="Price" name="Price" placeholder="Price in USD" required>
+      <input type="number" class="form-control" step="0.01" max="9999.99" id="Price" name="Price" placeholder="Price" required autocomplete="off" value="{{ book.price }}">
     </div>
     <div class="custom-file">
-      <input type="file" class="custom-file-input" id="customFile" name="customFile">
+      <input type="file" class="custom-file-input" id="customFile" name="customFile" autocomplete="off" value="{{ book.cover }}">
       <label class="custom-file-label" for="customFile">Choose a cover</label>
       <small class="text-muted">Extensions supported: .png, .jpg, and .jpeg</small>
     </div>
