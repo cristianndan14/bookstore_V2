@@ -1,0 +1,36 @@
+{% extends './body.html' %}
+
+{% block title %}Confirm Delete{% endblock title %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <h1>Are you sure to delete...</h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+        <div class="col-12 text-center">
+            <img src="{{ url_for('static', filename=book.cover) }}" alt="{{ book.title }}" height="400">
+            <br>
+            <br>
+            <p>Title: <strong>{{ book.title }}</strong></p>
+            {% for a in data.authors %}
+                {% if a.id_author == book.id_author %}
+                    <p>Author: <strong>{{ a.full_name() }}</strong></p>
+                {% endif %}
+            {% endfor %}
+            <p>Published: <strong>{{ book.publication_date }}</strong></p>
+            <p>Price: <strong>{{ book.price }}</strong></p>
+            <!-- CONTINUE BUILDING BUTTON -->
+            <div>
+                <button class="btn btn-lg btn-primary mt-5" type="submit">Confirm</button>
+                <a class="btn btn-lg btn-secondary mt-5" href="#!">Cancel</a>
+            </div>  
+        </div>      
+</div>
+
+
+
+{% endblock container %}

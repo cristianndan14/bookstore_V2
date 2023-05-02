@@ -85,7 +85,6 @@ def init_book(app, db):
         else:
             return redirect(url_for('books'))
 
-
     @app.route('/books/edit_book/<isbn>', methods=['GET', 'POST'])
     @login_required
     def edit_book(isbn):
@@ -97,7 +96,7 @@ def init_book(app, db):
                     'authors': authors
                 }
                 book = BookModel.load_book(db, isbn)
-                
+
                 if request.method == 'POST':
                     title = request.form['Title']
                     publication_date = request.form['Publication_date']
@@ -118,7 +117,8 @@ def init_book(app, db):
                         file.save(os.path.join(
                             current_app.config['UPLOAD_COVERS'], filename))
 
-                    book = Book(book.isbn, title, id_author, publication_date, price, cover_route)
+                    book = Book(book.isbn, title, id_author,
+                                publication_date, price, cover_route)
                     edit_book = BookModel.edit_book(db, book)
 
                     if edit_book != None:
@@ -132,7 +132,26 @@ def init_book(app, db):
                                        book=book
                                        )
             except Exception as ex:
-                print(ex)
+                return render_template('errors/error.html', message=format(ex))
+        else:
+            return redirect(url_for('books'))
+
+    @app.route('/books/<isbn>/confirm_delete', methods=['GET', 'POST'])
+    @login_required
+    def delete_book(isbn):
+        if current_user.user_type_id.id == 1:
+            try:
+                authors = AuthorModel.author_list(db)
+                data = {
+                    'title': 'Author list',
+                    'authors': authors
+                }
+                book = BookModel.load_book(db, isbn)
+                return render_template('confirm_delete_book.html',
+                                       book=book,
+                                       data=data
+                                       )
+            except Exception as ex:
                 return render_template('errors/error.html', message=format(ex))
         else:
             return redirect(url_for('books'))

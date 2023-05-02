@@ -58,7 +58,7 @@
                         <td>{{ b.id_author.full_name() }}</td>
                         <td>${{ b.price }}</td>
                         <td>{{ b.publication_date }}</td>
-                        <td><a href="/books/edit_book/{{ b.isbn }}" type="button">edit</a> <a href="#!" type="button">delete</a></td>
+                        <td><a href="/books/edit_book/{{ b.isbn }}" type="button">edit</a> <a href="/books/{{ b.isbn }}/confirm_delete" type="button">delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
