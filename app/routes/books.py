@@ -99,7 +99,6 @@ def init_book(app, db):
                 book = BookModel.load_book(db, isbn)
                 
                 if request.method == 'POST':
-                    isbn = book.isbn
                     title = request.form['Title']
                     publication_date = request.form['Publication_date']
                     price = request.form['Price']
@@ -114,13 +113,12 @@ def init_book(app, db):
                         filename = secure_filename(file.filename)
                         if not allowed_file(filename):
                             flash(FILE_NOT_SUPPORTED, 'warning')
-                            return redirect(url_for('add_book'))
+                            return redirect(url_for('edit_book'))
                         cover_route = f'/img/covers/{filename}'
                         file.save(os.path.join(
                             current_app.config['UPLOAD_COVERS'], filename))
 
-                    book = Book(isbn, title, id_author,
-                                    publication_date, price, cover_route)
+                    book = Book(book.isbn, title, id_author, publication_date, price, cover_route)
                     edit_book = BookModel.edit_book(db, book)
 
                     if edit_book != None:

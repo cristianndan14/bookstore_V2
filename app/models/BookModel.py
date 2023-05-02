@@ -102,3 +102,35 @@ class BookModel():
             raise Exception(ex)
         finally:
             cursor.close()
+
+    @classmethod
+    def edit_book(cls, db, book):
+        error_msg = None
+        try:
+            cursor = db.connection.cursor()
+            sql = """UPDATE book
+                    SET title = %s,
+                        id_author = %s,
+                        publication_date = %s,
+                        price = %s,
+                        cover = %s
+                    WHERE isbn = %s"""
+            cursor.execute(sql,
+                            (
+                                book.title,
+                                book.id_author,
+                                book.publication_date,
+                                book.price,
+                                book.cover,
+                                book.isbn
+                            )
+            )
+            db.connection.commit()
+        except pymysql.Error as ex:
+            error_msg = ex.args[1]
+            db.connection.rollback()
+        finally:
+            cursor.close()
+        if error_msg:
+            raise ValueError(error_msg)
+        return True
