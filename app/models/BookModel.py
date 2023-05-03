@@ -134,3 +134,21 @@ class BookModel():
         if error_msg:
             raise ValueError(error_msg)
         return True
+
+    @classmethod
+    def delete_book(cls, db, isbn):
+        error_msg = None
+        try:
+            cursor = db.connection.cursor()
+            sql = """DELETE FROM book
+                     WHERE isbn = %s"""
+            cursor.execute(sql,(isbn,))
+            db.connection.commit()
+        except pymysql.Error as ex:
+            error_msg = ex.args[1]
+            db.connection.rollback()
+        finally:
+            cursor.close()
+        if error_msg:
+            raise ValueError(error_msg)
+        return True

@@ -71,18 +71,4 @@
         </div>
     {% endif %}
 </div>
-
-{% block customJS %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{% endblock customJS %}
-
-<script>
-    $(function() {
-        // Agregar un controlador de eventos para el checkbox "Seleccionar todo"
-        $('#select-all').click(function() {
-            $(':checkbox[name^="book_checkbox_"]').prop('checked', this.checked);
-        });
-    });
-</script>
-
 {% endblock container %}

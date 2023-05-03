@@ -138,7 +138,7 @@ def init_book(app, db):
 
     @app.route('/books/<isbn>/confirm_delete', methods=['GET', 'POST'])
     @login_required
-    def delete_book(isbn):
+    def confirm_delete_book(isbn):
         if current_user.user_type_id.id == 1:
             try:
                 authors = AuthorModel.author_list(db)
@@ -147,6 +147,13 @@ def init_book(app, db):
                     'authors': authors
                 }
                 book = BookModel.load_book(db, isbn)
+                if request.method == 'POST':
+                    isbn_book = request.form.get('isbn')
+                    if isbn_book != None:
+                        book_confirmed = BookModel.delete_book(db, isbn_book)
+                        if book_confirmed == True:
+                            flash(DELETE_BOOK_SUCCESS, 'success')
+                            return redirect(url_for('book_list'))
                 return render_template('confirm_delete_book.html',
                                        book=book,
                                        data=data
